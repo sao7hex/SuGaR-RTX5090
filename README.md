@@ -514,3 +514,82 @@ The user is free to provide a custom bounding box to the `train.py` script, usin
 </details>
 
 </details>
+
+
+## Quick Workflow (Input Images to 3D Mesh Output)
+
+Here is a quick step-by-step guide to reconstruct a 3D mesh model from your raw input images.
+
+### 0. Activate the Conda Environment
+Before running any commands, make sure you activate your conda environment:
+```shell
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate sugar
+```
+
+### 1. Place Your Input Images
+Create a new directory for your scene, create an `input` directory inside it, and place all your raw images there:
+```text
+/home/takahara/my_new_scene/
+  └── input/
+        ├── image_001.jpg
+        ├── image_002.jpg
+        └── ...
+```
+
+### 2. Estimate Camera Poses (Run COLMAP)
+Make sure COLMAP is installed (`sudo apt install colmap`). Navigate to the `SuGaR` directory and run:
+```shell
+python gaussian_splatting/convert.py -s /home/takahara/my_new_scene
+```
+
+### 3. Run the Full SuGaR Pipeline
+Run the following orchestrator command to train the model and extract the 3D mesh with textures:
+```shell
+python train_full_pipeline.py -s /home/takahara/my_new_scene -r dn_consistency --high_poly True --export_obj True
+```
+
+### 4. Locate the Output Files
+Once the pipeline is complete, the outputs are saved under the `output/` directory. You can open it directly in Windows Explorer from WSL2:
+```shell
+explorer.exe /home/takahara/SuGaR-RTX5090/output/refined_mesh/my_new_scene/
+```
+The key files are:
+- `sugar_refined_mesh.obj` (the 3D mesh)
+- `sugar_refined_mesh.png` (the UV texture map)
+
+---
+
+### クイックワークフロー（入力画像から3Dメッシュ出力まで）
+
+入力画像（写真群）からテクスチャ付き3Dメッシュ（.obj）を出力するまでのクイックガイドです。
+
+### 0. Conda環境のアクティベート
+```shell
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate sugar
+```
+
+### 1. 入力画像の配置
+新規シーン用のフォルダを作成し、その中に `input` という名前のフォルダを作って、写真をすべて入れます。
+```text
+/home/takahara/my_new_scene/
+  └── input/
+        ├── image_001.jpg
+        └── ...
+```
+
+### 2. カメラ位置の推定 (COLMAPの実行)
+```shell
+python gaussian_splatting/convert.py -s /home/takahara/my_new_scene
+```
+
+### 3. SuGaR パイプラインの一括実行
+```shell
+python train_full_pipeline.py -s /home/takahara/my_new_scene -r dn_consistency --high_poly True --export_obj True
+```
+
+### 4. 出力ファイルの確認
+```shell
+explorer.exe /home/takahara/SuGaR-RTX5090/output/refined_mesh/my_new_scene/
+```
