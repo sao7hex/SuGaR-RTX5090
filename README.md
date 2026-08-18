@@ -246,9 +246,19 @@ cd ../
 <details>
 <summary><span style="font-weight: bold;">Click here to see content.</span></summary>
 
-### Training from scratch
+### End-to-End Training (From Unposed Images to SuGaR Mesh)
 
-You can run the following single script to optimize a full SuGaR model from scratch using a COLMAP dataset:
+If you start with raw, unposed images, you can run the entire pipeline (COLMAP feature extraction & SfM -> Vanilla 3DGS -> SuGaR optimization -> Mesh extraction) in a single command using `train_end_to_end.py`:
+
+```shell
+python train_end_to_end.py -s <path to scene directory with input/ folder> -r dn_consistency --high_poly
+```
+
+Make sure your raw images are placed inside an `input/` folder in your scene directory (e.g., `my_dataset/input/image1.jpg`).
+
+### Training from scratch (Pre-computed COLMAP dataset)
+
+You can run the following single script to optimize a full SuGaR model from scratch using an already processed COLMAP dataset:
 
 ```shell
 python train_full_pipeline.py -s <path to COLMAP dataset> -r <"dn_consistency", "density" or "sdf"> --high_poly True --export_obj True
