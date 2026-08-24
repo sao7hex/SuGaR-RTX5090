@@ -38,9 +38,7 @@ if not args.skip_matching:
         --image_path " + args.source_path + "/input \
         --ImageReader.single_camera 1 \
         --ImageReader.camera_model " + args.camera
-    if use_gpu:
-        feat_extracton_cmd += " --SiftExtraction.gpu_index " + args.gpu_index
-    else:
+    if not use_gpu:
         feat_extracton_cmd += " --SiftExtraction.use_gpu 0"
     exit_code = os.system(feat_extracton_cmd)
     if exit_code != 0:
@@ -50,9 +48,7 @@ if not args.skip_matching:
     ## Feature matching
     feat_matching_cmd = colmap_command + " exhaustive_matcher \
         --database_path " + args.source_path + "/distorted/database.db"
-    if use_gpu:
-        feat_matching_cmd += " --SiftMatching.gpu_index " + args.gpu_index
-    else:
+    if not use_gpu:
         feat_matching_cmd += " --SiftMatching.use_gpu 0"
     exit_code = os.system(feat_matching_cmd)
     if exit_code != 0:
