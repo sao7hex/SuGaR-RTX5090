@@ -70,6 +70,7 @@ def main():
             f'python gaussian_splatting/convert.py '
             f'-s "{scene_path}" '
             f'--camera {args.camera} '
+            f'--gpu_index {args.gpu} '
             f'{colmap_exec_arg} '
             f'{resize_arg}'
         )
