@@ -154,3 +154,5 @@ learnableearthparser/fast_sampler/_sampler.c
 
 # projects
 projects/
+
+.vscode/
